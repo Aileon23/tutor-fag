@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tutor de FAG · UD3 VALIDA</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f4f7f6;
+        color: #162c39;
+        font:
+          1rem/1.55 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 48rem;
+        margin: auto;
+        padding: clamp(1rem, 5vw, 3rem) 1rem;
+      }
+      header {
+        border-top: 4px solid #23665e;
+        padding-top: 1rem;
+      }
+      header p,
+      h1 {
+        margin: 0;
+      }
+      h1 {
+        line-height: 1.2;
+        margin-block: 0.3rem 0.6rem;
+      }
+      form,
+      article {
+        background: #fff;
+        border: 1px solid #c4d5d1;
+        border-radius: 0.75rem;
+        padding: 1rem;
+      }
+      article {
+        margin-block: 1rem;
+        overflow-wrap: anywhere;
+      }
+      article p {
+        white-space: pre-wrap;
+        margin: 0.35rem 0 0;
+      }
+      label,
+      strong {
+        font-weight: 650;
+      }
+      textarea {
+        width: 100%;
+        min-height: 5rem;
+        margin: 0.45rem 0 0.6rem;
+        padding: 0.65rem;
+        border: 1px solid #58716e;
+        border-radius: 0.4rem;
+        resize: vertical;
+      }
+      textarea,
+      button {
+        font: inherit;
+      }
+      button {
+        background: #23665e;
+        color: white;
+        border: 1px solid #23665e;
+        border-radius: 0.4rem;
+        padding: 0.5rem 0.85rem;
+        cursor: pointer;
+      }
+      button[type="button"] {
+        color: #164b44;
+        background: white;
+      }
+      button:disabled {
+        opacity: 0.65;
+        cursor: default;
+      }
+      :focus-visible {
+        outline: 3px solid #9a5c10;
+        outline-offset: 3px;
+      }
+      .acciones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+      #aviso {
+        color: #3e5755;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p>FAG · Unidad 3 · VALIDA</p>
+        <h1>Tutor de investigación de mercado</h1>
+        <p>
+          Pregunta sobre los contenidos de la unidad o pide una pista para la
+          tarea PE3.
+        </p>
+      </header>
+
+      <p id="aviso" role="status"></p>
+      <section
+        id="conversacion"
+        role="log"
+        aria-label="Conversación con el tutor"
+      ></section>
+      <form>
+        <label for="pregunta">Tu pregunta</label>
+        <textarea
+          id="pregunta"
+          maxlength="1200"
+          required
+          aria-describedby="privacidad"
+          placeholder="¿Qué diferencia hay entre cliente y usuario?"
+        ></textarea>
+        <p id="privacidad">
+          La IA responde en tu dispositivo. La primera pregunta puede tardar
+          mientras se descarga el modelo.
+        </p>
+        <div class="acciones">
+          <button id="enviar">Enviar pregunta</button>
+          <button id="reiniciar" type="button">Borrar conversación</button>
+        </div>
+      </form>
+    </main>
+    <script type="module" src="./tutor.js"></script>
+  </body>
+</html>
