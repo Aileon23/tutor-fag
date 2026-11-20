@@ -16,19 +16,20 @@ const palabrasVacias = new Set(
   ),
 );
 
+function normalizar(texto) {
+  return texto.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+}
+
 function terminos(texto) {
-  return (
-    texto
-      .normalize("NFD")
-      .replace(/\p{M}/gu, "")
-      .toLowerCase()
-      .match(/[a-z0-9]{3,}/g) ?? []
-  )
+  return (normalizar(texto).match(/[a-z0-9]{3,}/g) ?? [])
     .filter((palabra) => !palabrasVacias.has(palabra))
     .map((palabra) => palabra.replace(/(?:es|s)$/, ""));
 }
 
 function fragmentos(consulta, materiales) {
+  const frase = normalizar(consulta)
+    .replace(/[^a-z0-9 ]/g, "")
+    .trim();
   const actuales = new Set(terminos(consulta));
   const previos = new Set(terminos(historial.at(-2)?.content ?? ""));
   const candidatos = materiales.flatMap(({ titulo, texto }) =>
@@ -38,7 +39,8 @@ function fragmentos(consulta, materiales) {
       .filter((linea) => linea.length >= 25)
       .map((linea) => {
         const palabras = new Set(terminos(titulo + " " + linea));
-        let puntos = 0;
+        let puntos =
+          frase.length >= 12 && normalizar(titulo).includes(frase) ? 6 : 0;
         for (const palabra of palabras) {
           if (actuales.has(palabra)) puntos += 3;
           else if (previos.has(palabra)) puntos++;
