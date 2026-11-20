@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tutor de FAG · UD3 VALIDA</title>
+    <title>Tutor de Fundamentos de Administración y Gestión</title>
     <style>
       * {
         box-sizing: border-box;
@@ -90,6 +90,21 @@
         flex-wrap: wrap;
         gap: 0.6rem;
       }
+      .unidad {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.65rem;
+        margin-top: 1rem;
+      }
+      select {
+        font: inherit;
+        color: inherit;
+        border: 1px solid #58716e;
+        border-radius: 0.4rem;
+        background: white;
+        padding: 0.4rem 0.6rem;
+      }
       #aviso {
         color: #3e5755;
       }
@@ -98,14 +113,29 @@
   <body>
     <main>
       <header>
-        <p>FAG · Unidad 3 · VALIDA</p>
-        <h1>Tutor de investigación de mercado</h1>
+        <h1>Tutor de Fundamentos de Administración y Gestión</h1>
         <p>
-          Pregunta sobre los contenidos de la unidad o pide una pista para la
-          tarea PE3.
+          Elige la unidad para hacer una pregunta o pedir una pista para una
+          actividad.
         </p>
       </header>
 
+      <div class="unidad">
+        <label for="unidad">Unidad</label>
+        <select id="unidad">
+          <option value="1">1 · OBSERVA</option>
+          <option value="2">2 · IDEA</option>
+          <option value="3" selected>3 · VALIDA</option>
+          <option value="4">4 · DISEÑA</option>
+          <option value="5">5 · CREA</option>
+          <option value="6">6 · ORGANIZA</option>
+          <option value="7">7 · CALCULA</option>
+          <option value="8">8 · GESTIONA</option>
+        </select>
+      </div>
+      <p id="fuente-unidad" hidden>
+        La unidad 1 se apoya en su mapa conceptual.
+      </p>
       <p id="aviso" role="status"></p>
       <section
         id="conversacion"
@@ -119,7 +149,7 @@
           maxlength="1200"
           required
           aria-describedby="privacidad"
-          placeholder="¿Qué diferencia hay entre cliente y usuario?"
+          placeholder="¿Qué concepto quieres repasar?"
         ></textarea>
         <p id="privacidad">
           La IA responde en tu dispositivo. La primera pregunta puede tardar

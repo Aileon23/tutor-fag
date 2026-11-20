@@ -5,7 +5,9 @@ const enviar = document.querySelector("#enviar");
 const reiniciar = document.querySelector("#reiniciar");
 const aviso = document.querySelector("#aviso");
 let motor;
-let materiales;
+const unidad = document.querySelector("#unidad");
+const fuenteUnidad = document.querySelector("#fuente-unidad");
+const materialesPorUnidad = new Map();
 let historial = [];
 
 const palabrasVacias = new Set(
@@ -26,13 +28,14 @@ function terminos(texto) {
     .map((palabra) => palabra.replace(/(?:es|s)$/, ""));
 }
 
-function fragmentos(consulta) {
+function fragmentos(consulta, materiales) {
   const actuales = new Set(terminos(consulta));
   const previos = new Set(terminos(historial.at(-2)?.content ?? ""));
   const candidatos = materiales.flatMap(({ titulo, texto }) =>
     texto
       .match(/[^\n].{0,699}/g)
-      .filter((linea) => linea.length >= 45)
+      ?.map((linea) => linea.trim())
+      .filter((linea) => linea.length >= 25)
       .map((linea) => {
         const palabras = new Set(terminos(titulo + " " + linea));
         let puntos = 0;
@@ -81,14 +84,20 @@ document.querySelector("form").addEventListener("submit", async (evento) => {
   const texto = pregunta.value.trim();
   if (enviar.disabled || !texto) return;
 
-  enviar.disabled = reiniciar.disabled = pregunta.readOnly = true;
+  const numero = unidad.value;
+  aviso.textContent = "Buscando en los materiales de la unidad…";
+  unidad.disabled =
+    enviar.disabled =
+    reiniciar.disabled =
+    pregunta.readOnly =
+      true;
   try {
-    if (!materiales) {
-      const archivo = await fetch("./materiales.json");
+    if (!materialesPorUnidad.has(numero)) {
+      const archivo = await fetch(`./materiales/unidad${numero}.json`);
       if (!archivo.ok) throw new Error("No se pudieron cargar los materiales");
-      materiales = await archivo.json();
+      materialesPorUnidad.set(numero, await archivo.json());
     }
-    const fuentes = fragmentos(texto);
+    const fuentes = fragmentos(texto, materialesPorUnidad.get(numero));
     if (!fuentes.length) {
       guardarTurno(
         texto,
@@ -112,8 +121,7 @@ document.querySelector("form").addEventListener("submit", async (evento) => {
       messages: [
         {
           role: "system",
-          content:
-            "Eres el tutor de FAG para la unidad 3. Responde brevemente en español, basándote en el material adjunto. Indica el apartado pertinente. Si falta información, dilo o pide aclaración. Para ejercicios y PE3, ofrece pistas. No inventes entrevistas, encuestas ni resultados.",
+          content: `Eres el tutor de Fundamentos de Administración y Gestión para la unidad ${numero}. Responde brevemente en español, basándote en el material adjunto. Indica el apartado pertinente. Si falta información, dilo o pide aclaración. Para ejercicios y tareas del Plan de Empresa, ofrece pistas. No inventes datos ni resultados.`,
         },
         ...historial,
         {
@@ -138,15 +146,30 @@ document.querySelector("form").addEventListener("submit", async (evento) => {
     aviso.textContent =
       "No se pudo preparar la respuesta. Comprueba la conexión y la compatibilidad con WebGPU e inténtalo de nuevo.";
   } finally {
-    enviar.disabled = reiniciar.disabled = pregunta.readOnly = false;
+    unidad.disabled =
+      enviar.disabled =
+      reiniciar.disabled =
+      pregunta.readOnly =
+        false;
     pregunta.focus();
   }
 });
 
-reiniciar.addEventListener("click", () => {
+function borrarConversacion() {
   historial = [];
   conversacion.replaceChildren();
   pregunta.value = "";
+}
+
+reiniciar.addEventListener("click", () => {
+  borrarConversacion();
   if (!enviar.disabled) aviso.textContent = "Conversación borrada.";
   pregunta.focus();
+});
+
+unidad.addEventListener("change", () => {
+  borrarConversacion();
+  fuenteUnidad.hidden = unidad.value !== "1";
+  if (!enviar.disabled)
+    aviso.textContent = "Unidad seleccionada. Escribe tu pregunta.";
 });
