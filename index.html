@@ -10,8 +10,8 @@
       }
       body {
         margin: 0;
-        background: #f4f7f6;
-        color: #162c39;
+        background: #f3f5fa;
+        color: #22334e;
         font:
           1rem/1.55 system-ui,
           sans-serif;
@@ -22,25 +22,47 @@
         padding: clamp(1rem, 5vw, 3rem) 1rem;
       }
       header {
-        border-top: 4px solid #23665e;
-        padding-top: 1rem;
+        background: #173766;
+        color: #fff;
+        border-top: 5px solid #bd3c46;
+        border-radius: 1rem;
+        padding: clamp(1.25rem, 5vw, 2.5rem);
+      }
+      header::after {
+        content: "";
+        display: block;
+        width: 3.5rem;
+        height: 0.25rem;
+        margin-top: 1.1rem;
+        background: #e8bc38;
+      }
+      header p {
+        color: #dbe5f5;
+      }
+      a {
+        color: #2159a0;
       }
       header p,
       h1 {
         margin: 0;
       }
       h1 {
-        line-height: 1.2;
+        font-size: clamp(1.7rem, 5vw, 2.6rem);
+        line-height: 1.12;
         margin-block: 0.3rem 0.6rem;
       }
       form,
       article {
         background: #fff;
-        border: 1px solid #c4d5d1;
-        border-radius: 0.75rem;
+        border: 1px solid #dbe2ed;
+        border-radius: 1rem;
         padding: 1rem;
       }
+      form {
+        border-top: 4px solid #265da0;
+      }
       article {
+        border-inline-start: 4px solid #e8bc38;
         margin-block: 1rem;
         overflow-wrap: anywhere;
       }
@@ -57,7 +79,7 @@
         min-height: 5rem;
         margin: 0.45rem 0 0.6rem;
         padding: 0.65rem;
-        border: 1px solid #58716e;
+        border: 1px solid #687d9d;
         border-radius: 0.4rem;
         resize: vertical;
       }
@@ -66,23 +88,28 @@
         font: inherit;
       }
       button {
-        background: #23665e;
+        background: #2159a0;
         color: white;
-        border: 1px solid #23665e;
+        border: 1px solid #2159a0;
         border-radius: 0.4rem;
         padding: 0.5rem 0.85rem;
         cursor: pointer;
       }
       button[type="button"] {
-        color: #164b44;
-        background: white;
+        color: #204b80;
+        background: #e5ecf7;
+        border-color: #e5ecf7;
+      }
+      button:not(:disabled):hover {
+        background: #173d73;
+        color: white;
       }
       button:disabled {
         opacity: 0.65;
         cursor: default;
       }
       :focus-visible {
-        outline: 3px solid #9a5c10;
+        outline: 3px solid #dfae25;
         outline-offset: 3px;
       }
       .acciones {
@@ -96,17 +123,21 @@
         align-items: center;
         gap: 0.65rem;
         margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        border-inline-start: 4px solid #bd3c46;
+        border-radius: 0.4rem;
+        background: #e7eef9;
       }
       select {
         font: inherit;
         color: inherit;
-        border: 1px solid #58716e;
+        border: 1px solid #687d9d;
         border-radius: 0.4rem;
         background: white;
         padding: 0.4rem 0.6rem;
       }
       #aviso {
-        color: #3e5755;
+        color: #173766;
       }
     </style>
   </head>
